@@ -5,11 +5,7 @@ const { InitDatabase, StopDatabase } = require('./config/database')
 const { MigrateDatabaseTables } = require('./models')
 const { StartServer, StopServer } = require('./server')
 
-function startApplication(){
-    StartServer()
-}
-
-function handleShutDown(){
+function handleShutDown() {
     StopDatabase().then(() => {
         StopServer()
     }).catch((error) => {
@@ -17,16 +13,16 @@ function handleShutDown(){
     })
 }
 
-try {
-    InitDatabase().then(() => {
-        MigrateDatabaseTables().then(() => {
-            startApplication()
-        })
+
+InitDatabase().then(() => {
+    MigrateDatabaseTables().then(() => {
+        StartServer()
+    }).catch((error) => {
+        handleShutDown()
     })
-} catch (error) {
-    handleShutDown()
+}).catch((error) => {
     console.log(error)
-}
+})
 
 process.on('SIGINT', handleShutDown)
 process.on('SIGTERM', handleShutDown)

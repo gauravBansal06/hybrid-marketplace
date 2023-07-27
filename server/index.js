@@ -7,19 +7,24 @@ const app = express()
 app.use(express.json())
 
 function StartServer() {
-    return new Promise(resolve => {
+    try {
         httpServer = app.listen(Server.Port, () => {
-          const { port } = httpServer.address()
-          console.log(`🤘 Successfully Started Server: http://localhost:${port}`)
+            const { port } = httpServer.address()
+            console.log(`🤘 Successfully Started Server: http://localhost:${port}`)
         })
-        resolve(httpServer)
-    })
+    } catch (error) {
+        console.log(`Error in starting server - ${error}`)
+    }
 }
 
 function StopServer() {
-    httpServer.close( () => {
-        console.log(`Closed http server successfully`)
-    })
+    try {
+        httpServer.close(() => {
+            console.log(`Closed http server successfully`)
+        })
+    } catch (error) {
+        console.log(`Error in shutting down server - ${error}`)
+    }
 }
 
 module.exports = {
