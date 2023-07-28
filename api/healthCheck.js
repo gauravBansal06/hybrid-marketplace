@@ -4,7 +4,7 @@ const { FormatApiResponse } = require('../utils/common')
 
 const router = Router()
 
-router.get('/getStatus', async (req, res, next) => {
+router.get('/get-status', async (req, res, next) => {
     try {
         res.status(StatusCodes.Success).json(FormatApiResponse(StatusCodes.Success, null, 'Server is up'))
     } catch (error) {
