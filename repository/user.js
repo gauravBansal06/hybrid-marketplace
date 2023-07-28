@@ -10,15 +10,6 @@ const CreateUser = async (userName, encryptedPwd, userType) => {
     })
 }
 
-const GetUserByUserName = async (userName) => {
-    return User.findOne({
-        where: {
-            userName: userName,
-            isActive: true
-        }
-    })
-}
-
 const createSeller = async (userId, sellerName) => {
     return await Seller.create({
         name: sellerName,
@@ -38,8 +29,27 @@ const CreateSellerUser = async (userName, encryptedPwd, sellerName) => {
     }
 }
 
+const GetUserByUserName = async (userName) => {
+    return User.findOne({
+        where: {
+            userName: userName,
+            isActive: true
+        }
+    })
+}
+
+const GetSellerByUserId = async (userId) => {
+    return Seller.findOne({
+        where: {
+            userId: userId,
+            isActive: true
+        }
+    })
+}
+
 module.exports = {
     CreateUser,
     CreateSellerUser,
-    GetUserByUserName
+    GetUserByUserName,
+    GetSellerByUserId
 }
