@@ -12,7 +12,7 @@ const User = sequelize.define(
         },
         userName: {
             type: DataTypes.STRING,
-            length: 20,
+            length: 10,
             unique: true,
             allowNull: false
         },
@@ -23,7 +23,6 @@ const User = sequelize.define(
         userType: {
             type: DataTypes.ENUM,
             values: [UserType.Buyer, UserType.Seller],
-            defaultValue: UserType.Buyer,
             allowNull: false
         },
         isActive: {
