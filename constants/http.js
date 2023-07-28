@@ -1,3 +1,5 @@
+const AuthrizationHeaderKey = "Authorization"
+
 const StatusCodes = {
     Success: 200,
     BadRequest: 400,
@@ -7,5 +9,6 @@ const StatusCodes = {
 }
 
 module.exports = {
+    AuthrizationHeaderKey,
     StatusCodes
 }
