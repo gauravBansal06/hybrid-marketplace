@@ -113,8 +113,8 @@ const validateRegisterUserRequest = (regReqBody) => {
     if (!ValidNewRegistrationUserTypes.includes(regReq.userType)) {
         return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `userType should be one of [${ValidNewRegistrationUserTypes}]!!`, null) }
     }
-    if (regReq.userType == UserType.Seller && !ValidateAlphaNumericString(regReq.sellerName)) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `{sellerName}(alpha-numeric value) required for Seller registration!!`, null) }
+    if (regReq.userType == UserType.Seller && (regReq.sellerName.length > ValidNameLengths.Default || !ValidateAlphaNumericString(regReq.sellerName))) {
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `{sellerName}(alpha-numeric value of max ${ValidNameLengths.Default} chars) required for Seller registration!!`, null) }
     }
     if (regReq.userName.length > ValidNameLengths.MaxUserNameLen || !ValidateAlphaNumericString(regReq.userName)) {
         return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `Username should be alphanumeric and max of ${ValidNameLengths.MaxUserNameLen} chars!!`, null) }
