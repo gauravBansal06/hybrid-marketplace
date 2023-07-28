@@ -9,7 +9,7 @@ const CreateUser = async (userName, encryptedPwd, userType, transaction = null) 
         password: encryptedPwd,
         userType: userType,
         isActive: true
-    },{transaction})
+    }, { transaction })
 }
 
 const GetUserByUserName = async (userName) => {
@@ -27,7 +27,7 @@ const createSeller = async (userId, sellerName, transaction = null) => {
         name: sellerName,
         userId: userId,
         isActive: true
-    },{transaction})
+    }, { transaction })
 }
 
 const CreateSellerUser = async (userName, encryptedPwd, sellerName) => {
@@ -52,9 +52,20 @@ const GetSellerByUserId = async (userId) => {
     })
 }
 
+const GetAllSellers = async () => {
+    return Seller.findAll({
+        where: {
+            isActive: true
+        },
+        attributes: ['id', 'name'],
+        order: [['name', 'ASC']]
+    })
+}
+
 module.exports = {
     CreateUser,
-    CreateSellerUser,
     GetUserByUserName,
-    GetSellerByUserId
+    CreateSellerUser,
+    GetSellerByUserId,
+    GetAllSellers
 }
