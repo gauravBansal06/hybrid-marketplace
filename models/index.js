@@ -1,11 +1,12 @@
+const { sequelize } = require('../config/database')
 const { User } = require('./user')
+const { Seller } = require('./seller')
 const { Catalog } = require('./catalog')
 const { Product } = require('./product')
 const { Order } = require('./order')
 const { OrderDetails } = require('./order_details')
-const { sequelize } = require('../config/database')
 
-function MigrateDatabaseTables(){
+function MigrateDatabaseTables() {
     return new Promise((resolve, reject) => {
         sequelize.sync().then(() => {
             console.log('Successfully Synced MySQL DB Tables');
@@ -20,6 +21,7 @@ function MigrateDatabaseTables(){
 
 module.exports = {
     User,
+    Seller,
     Catalog,
     Product,
     Order,
