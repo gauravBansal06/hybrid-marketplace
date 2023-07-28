@@ -3,9 +3,9 @@ const { UserType } = require("../constants/user");
 
 const AuthorizeSellerUser = (req, res, next) => {
     try {
-        const { userType } = req.user
-        if (!req.user || !userType) {
-            return res.status(StatusCodes.InternalServerError).send("userType not present in req.user!!");
+        const { userType, sellerId } = req.user
+        if (!req.user || !userType || !sellerId) {
+            return res.status(StatusCodes.InternalServerError).send("userType or sellerId not found in req.user!!");
         }
         if (userType != UserType.Seller) {
             return res.status(StatusCodes.UserForbidden).send("Only Sellers Allowed!!");
@@ -18,9 +18,9 @@ const AuthorizeSellerUser = (req, res, next) => {
 
 const AuthorizeBuyerUser = (req, res, next) => {
     try {
-        const { userType } = req.user
-        if (!req.user || !userType) {
-            return res.status(StatusCodes.InternalServerError).send("userType not present in req.user!!");
+        const { userType, userId } = req.user
+        if (!req.user || !userType || !userId) {
+            return res.status(StatusCodes.InternalServerError).send("userType or userId not found in req.user!!");
         }
         if (userType != UserType.Buyer) {
             return res.status(StatusCodes.UserForbidden).send("Only Buyers Allowed!!");
