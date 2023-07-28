@@ -1,32 +1,15 @@
+const { sequelize } = require('../config/database')
 const { UserType } = require('../constants/user')
 const { User, Seller } = require('../models')
 
-const CreateUser = async (userName, encryptedPwd, userType) => {
+//user methods
+const CreateUser = async (userName, encryptedPwd, userType, transaction = null) => {
     return User.create({
         userName: userName,
         password: encryptedPwd,
         userType: userType,
         isActive: true
-    })
-}
-
-const createSeller = async (userId, sellerName) => {
-    return await Seller.create({
-        name: sellerName,
-        userId: userId,
-        isActive: true
-    })
-}
-
-const CreateSellerUser = async (userName, encryptedPwd, sellerName) => {
-    try {
-        const user = await CreateUser(userName, encryptedPwd, UserType.Seller)
-        const seller = await createSeller(user.id, sellerName)
-        return { user, seller }
-
-    } catch (error) {
-        throw error
-    }
+    },{transaction})
 }
 
 const GetUserByUserName = async (userName) => {
@@ -36,6 +19,28 @@ const GetUserByUserName = async (userName) => {
             isActive: true
         }
     })
+}
+
+//seller methods
+const createSeller = async (userId, sellerName, transaction = null) => {
+    return await Seller.create({
+        name: sellerName,
+        userId: userId,
+        isActive: true
+    },{transaction})
+}
+
+const CreateSellerUser = async (userName, encryptedPwd, sellerName) => {
+    const transaction = await sequelize.transaction()
+    try {
+        const user = await CreateUser(userName, encryptedPwd, UserType.Seller, transaction)
+        const seller = await createSeller(user.id, sellerName, transaction)
+        await transaction.commit()
+        return { user, seller }
+    } catch (error) {
+        await transaction.rollback()
+        throw error
+    }
 }
 
 const GetSellerByUserId = async (userId) => {
