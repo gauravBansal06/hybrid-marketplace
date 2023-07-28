@@ -16,7 +16,8 @@ const Seller = sequelize.define(
             allowNull: false
         },
         userId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         isActive: {
             type: DataTypes.BOOLEAN,
@@ -36,12 +37,7 @@ const Seller = sequelize.define(
     }
 )
 
-Seller.belongsTo(User, {
-    foreignKey: {
-        name: 'user_id',
-        allowNull: false
-    }
-})
+Seller.belongsTo(User)
 User.hasOne(Seller)
 
 module.exports = {

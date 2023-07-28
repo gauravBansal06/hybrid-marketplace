@@ -16,7 +16,8 @@ const Catalog = sequelize.define(
             allowNull: false
         },
         sellerId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         isActive: {
             type: DataTypes.BOOLEAN,
@@ -36,12 +37,7 @@ const Catalog = sequelize.define(
     }
 )
 
-Catalog.belongsTo(Seller, {
-    foreignKey: {
-        name: 'seller_id',
-        allowNull: false
-    }
-})
+Catalog.belongsTo(Seller)
 Seller.hasOne(Catalog)
 
 module.exports = {

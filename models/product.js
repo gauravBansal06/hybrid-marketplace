@@ -20,7 +20,8 @@ const Product = sequelize.define(
             allowNull: false
         },
         catalogId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         isActive: {
             type: DataTypes.BOOLEAN,
@@ -33,12 +34,7 @@ const Product = sequelize.define(
     }
 )
 
-Catalog.hasMany(Product, {
-    foreignKey: {
-        name: 'catalog_id',
-        allowNull: false
-    } 
-})
+Catalog.hasMany(Product)
 Product.belongsTo(Catalog)
 /*
 Assuming one product belongs to one catalog only and different sellers have different products.

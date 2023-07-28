@@ -12,11 +12,13 @@ const Order = sequelize.define(
             primaryKey: true,
             allowNull: false
         },
-        buyerId: {
-            type: DataTypes.UUID
+        userId: {
+            type: DataTypes.UUID,
+            allowNull: false
         },
         sellerId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         billingAmount: {
             type: DataTypes.DECIMAL(10, 2),
@@ -26,7 +28,6 @@ const Order = sequelize.define(
             type: DataTypes.ENUM,
             values: [OrderStatus.Confirmed, OrderStatus.Cancelled, OrderStatus.Delivered],
             allowNull: false,
-            defaultValue: OrderStatus.Confirmed
         },
         isActive: {
             type: DataTypes.BOOLEAN,
@@ -39,20 +40,11 @@ const Order = sequelize.define(
     }
 )
 
-Order.belongsTo(User, {
-    foreignKey: {
-        name: 'buyer_id',
-        allowNull: false
-    }
-})
+Order.belongsTo(User)
+Order.belongsTo(Seller)
 
-Order.belongsTo(Seller, {
-    foreignKey: {
-        name: 'seller_id',
-        allowNull: false
-    }
-})
 Seller.hasMany(Order)
+User.hasMany(Order)
 
 module.exports = {
     Order

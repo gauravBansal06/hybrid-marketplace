@@ -12,10 +12,12 @@ const OrderDetails = sequelize.define(
             allowNull: false
         },
         productId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         orderId: {
-            type: DataTypes.UUID
+            type: DataTypes.UUID,
+            allowNull: false
         },
         quantity: {
             type: DataTypes.INTEGER,
@@ -43,19 +45,11 @@ const OrderDetails = sequelize.define(
     }
 )
 
-Order.hasMany(OrderDetails, {
-    foreignKey: {
-        name: 'order_id',
-        allowNull: false
-    } 
-})
+Order.hasMany(OrderDetails)
 OrderDetails.belongsTo(Order)
-OrderDetails.belongsTo(Product, {
-    foreignKey: {
-        name: 'product_id',
-        allowNull: false
-    }
-})
+
+OrderDetails.belongsTo(Product)
+Product.hasMany(OrderDetails)
 
 module.exports = {
     OrderDetails
