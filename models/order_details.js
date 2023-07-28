@@ -32,7 +32,7 @@ const OrderDetails = sequelize.define(
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

@@ -26,11 +26,7 @@ const User = sequelize.define(
             defaultValue: UserType.Buyer,
             allowNull: false
         },
-        token: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

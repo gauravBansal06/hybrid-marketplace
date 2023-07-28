@@ -28,7 +28,7 @@ const Order = sequelize.define(
             allowNull: false,
             defaultValue: OrderStatus.Confirmed
         },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

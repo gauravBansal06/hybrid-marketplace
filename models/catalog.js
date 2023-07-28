@@ -18,7 +18,7 @@ const Catalog = sequelize.define(
         sellerId: {
             type: DataTypes.UUID
         },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

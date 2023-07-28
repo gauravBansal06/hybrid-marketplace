@@ -18,7 +18,7 @@ const Seller = sequelize.define(
         userId: {
             type: DataTypes.UUID
         },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

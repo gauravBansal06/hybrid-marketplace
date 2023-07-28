@@ -22,7 +22,7 @@ const Product = sequelize.define(
         catalogId: {
             type: DataTypes.UUID
         },
-        iaActive: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
