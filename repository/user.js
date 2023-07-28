@@ -58,7 +58,7 @@ const GetAllSellers = async () => {
             isActive: true
         },
         attributes: ['id', 'name'],
-        order: [['name', 'ASC']]
+        order: [['created_at', 'DESC']]
     })
 }
 
