@@ -1,4 +1,4 @@
-const AuthrizationHeaderKey = "Authorization"
+const AuthorizationHeaderKey = "authorization"
 
 const StatusCodes = {
     Success: 200,
@@ -9,6 +9,6 @@ const StatusCodes = {
 }
 
 module.exports = {
-    AuthrizationHeaderKey,
+    AuthorizationHeaderKey,
     StatusCodes
 }
