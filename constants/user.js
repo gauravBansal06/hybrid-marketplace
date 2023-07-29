@@ -10,8 +10,11 @@ const ValidNameLengths = {
     Default: 50
 }
 
+const ValidNameRegexp = /^[a-z0-9_-\s]+$/i
+
 module.exports = {
     UserType,
     ValidNewRegistrationUserTypes,
-    ValidNameLengths
+    ValidNameLengths,
+    ValidNameRegexp
 }

@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const { ValidNameRegexp } = require('../constants/user')
 
 const EncryptPassword = (password) => {
     const encryptedPwd = bcrypt.hashSync(password)
@@ -15,12 +16,15 @@ const FormatApiResponse = (statusCode, data = null, message = null , error = nul
         statusCode,
         data,
         message,
-        error
+        error: !error ? error : {
+            errMessage: error.message,
+            stackTrace: error.stack
+        }
     }
 }
 
 const ValidateAlphaNumericString = (testString) => {
-    const alphaRegExp = new RegExp(/^[a-z0-9]+$/i)
+    const alphaRegExp = new RegExp(ValidNameRegexp)
     return alphaRegExp.test(testString) 
 }
 
