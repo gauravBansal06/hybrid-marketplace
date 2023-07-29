@@ -24,25 +24,22 @@ const RegisterUser = async (regReqBody) => {
         const encryptedPassword = EncryptPassword(password)
 
         //create new user
-        let newUser = {}
+        let user = {}
         if (userType == UserType.Seller) {
             const sellerUser = await CreateSellerUser(userName, encryptedPassword, sellerName)
-            newUser = {
+            user = {
                 ...sellerUser.user.dataValues,
                 seller: sellerUser.seller.dataValues
             }
         } else {
-            const user = await CreateUser(userName, encryptedPassword, UserType.Buyer)
-            newUser = {
-                ...user.dataValues
-            }
+            user = await CreateUser(userName, encryptedPassword, UserType.Buyer)
         }
 
         //create jwt token
-        const token = CreateAuthJwtToken(newUser)
+        const token = CreateAuthJwtToken(user)
 
         const response = {
-            newUser,
+            user,
             AuthorizationHeader: token
         }
         return FormatApiResponse(StatusCodes.Success, response, `User Successfully created!! Pls note AuthorizationHeader (valid for ${AuthSecrets.TokenExpiry}) to access marketplace`)
