@@ -9,9 +9,10 @@ const AuthenticateUser = async (req, res, next) => {
     }
     try {
         const decodedPayload = VerifyAuthJwtToken(token)
-        const user = await GetUserById(decodedPayload.id)
+        const userId  = decodedPayload.userId
+        const user = await GetUserById(userId)
         if (!user){
-            return res.status(StatusCodes.UserUnauthorised).send(`user from token - ${decodedPayload.id} does not exist!!`)
+            return res.status(StatusCodes.UserUnauthorised).send(`user from token - ${userId} does not exist!!`)
         }
         req.user = {
             userId: user.id,
