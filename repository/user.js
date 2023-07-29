@@ -52,6 +52,23 @@ const GetSellerByUserId = async (userId) => {
     })
 }
 
+const GetSellerById = async (sellerId) => {
+    return Seller.findOne({
+        where: {
+            id: sellerId,
+            isActive: true
+        },
+        include: [
+            {
+                model: User,
+                where: {
+                    isActive: true
+                }
+            }
+        ]
+    })
+}
+
 const GetAllSellers = async () => {
     return Seller.findAll({
         where: {
@@ -67,5 +84,6 @@ module.exports = {
     GetUserByUserName,
     CreateSellerUser,
     GetSellerByUserId,
+    GetSellerById,
     GetAllSellers
 }
