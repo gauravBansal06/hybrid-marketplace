@@ -2,11 +2,9 @@ const jwt = require('jsonwebtoken');
 const { AuthSecrets } = require('../config')
 
 //create auth token for user
-function CreateAuthJwtToken(user) {
-    const { id, userType } = user
+function CreateAuthJwtToken(userId) {
     let tokenPayload = {
-        id,
-        userType
+        userId    
     }
     const token = jwt.sign(
         tokenPayload,
