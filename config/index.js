@@ -13,7 +13,8 @@ const MySqlDB = {
     Port: process.env.MYSQL_DB_PORT,
     User: process.env.MYSQL_DB_USER,
     Password: process.env.MYSQL_DB_PASSWORD,
-    Name: process.env.MYSQL_DB_NAME
+    Name: process.env.MYSQL_DB_NAME,
+    EnableLogging: process.env.MYSQL_DB_ENABLE_LOGGING === "true"
 };
 
 module.exports = {

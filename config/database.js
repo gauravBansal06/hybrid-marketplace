@@ -6,6 +6,8 @@ const sequelize = new Sequelize(
     {
         host: MySqlDB.Host,
         dialect: 'mysql',
+        logging: MySqlDB.EnableLogging,
+        logQueryParameters: MySqlDB.EnableLogging
     }
 )
 
