@@ -8,6 +8,7 @@ const { OrderDetails } = require('./order_details')
 
 function MigrateDatabaseTables() {
     return new Promise((resolve, reject) => {
+        //to drop all tables - replace "sync" with "drop" below
         sequelize.sync().then(() => {
             console.log('Successfully Synced MySQL DB Tables');
             resolve('success')
