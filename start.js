@@ -13,11 +13,11 @@ function handleShutDown() {
     })
 }
 
-
 InitDatabase().then(() => {
-    MigrateDatabaseTables().then(() => {
+    MigrateDatabaseTables().then(() => { //This function created tables in DB
         StartServer()
     }).catch((error) => {
+        console.log(error)
         handleShutDown()
     })
 }).catch((error) => {
