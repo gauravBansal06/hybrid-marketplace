@@ -12,6 +12,15 @@ const CreateUser = async (userName, encryptedPwd, userType, transaction = null) 
     }, { transaction })
 }
 
+const GetUserById = async (userId) => {
+    return User.findOne({
+        where: {
+            id: userId,
+            isActive: true
+        }
+    })
+}
+
 const GetUserByUserName = async (userName) => {
     return User.findOne({
         where: {
@@ -91,7 +100,9 @@ const GetAllSellers = async () => {
 
 module.exports = {
     CreateUser,
+    GetUserById,
     GetUserByUserName,
+    
     CreateSellerUser,
     GetSellerByUserId,
     GetSellerById,
