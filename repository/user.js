@@ -1,6 +1,6 @@
 const { sequelize } = require('../config/database')
 const { UserType } = require('../constants/user')
-const { User, Seller } = require('../models')
+const { User, Seller, Catalog } = require('../models')
 
 //user methods
 const CreateUser = async (userName, encryptedPwd, userType, transaction = null) => {
@@ -74,7 +74,17 @@ const GetAllSellers = async () => {
         where: {
             isActive: true
         },
-        attributes: ['id', 'name'],
+        include: [
+            {
+                model: User,
+                where: {
+                    isActive: true
+                }
+            },
+            {
+                model: Catalog
+            }
+        ],
         order: [['created_at', 'DESC']]
     })
 }
