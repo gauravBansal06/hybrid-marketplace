@@ -3,13 +3,10 @@ const { AuthSecrets } = require('../config')
 
 //create auth token for user
 function CreateAuthJwtToken(user) {
-    const { id, userType, seller } = user
+    const { id, userType } = user
     let tokenPayload = {
         id,
         userType
-    }
-    if (seller && seller.id) {
-        tokenPayload.sellerId = seller.id
     }
     const token = jwt.sign(
         tokenPayload,
