@@ -1,15 +1,22 @@
 const { StatusCodes } = require("../constants/http");
 const { UserType } = require("../constants/user");
+const { GetSellerByUserId } = require("../repository/user");
 
-const AuthorizeSellerUser = (req, res, next) => {
+const AuthorizeSellerUser = async (req, res, next) => {
     try {
-        const { userType, sellerId } = req.user
-        if (!req.user || !userType || !sellerId) {
-            return res.status(StatusCodes.InternalServerError).send("userType or sellerId not found in req.user!!");
+        const { userId, userType } = req.user
+        if (!req.user || !userType ) {
+            return res.status(StatusCodes.InternalServerError).send("userType or userId not found in req.user!!");
         }
         if (userType != UserType.Seller) {
             return res.status(StatusCodes.UserForbidden).send("Only Sellers Allowed!!");
         }
+        const seller = await GetSellerByUserId(userId)
+        if (!seller){
+            return res.status(StatusCodes.UserUnauthorised).send(`seller record not found for user - ${decodedPayload.id} !!`)
+        }
+        req.user.sellerId = seller.id
+        
     } catch (err) {
         return res.status(StatusCodes.InternalServerError).send(`Error - ${JSON.stringify(err)}`);
     }
