@@ -144,7 +144,18 @@ const GetListofAllSellers = async () => {
         if (!sellers || sellers.length == 0) {
             return FormatApiResponse(StatusCodes.Success, null, 'No sellers found!!')
         }
-        return FormatApiResponse(StatusCodes.Success, sellers, `Got ${sellers.length} on marketplace!!`)
+        
+        let response = { sellers: {} }
+        for (const seller of sellers){
+            const sellerRes = {
+                name: seller.name,
+                catalogName: seller.catalog ? seller.catalog.name : "Coming Soon",
+                createdAt: seller.createdAt
+            }
+            response.sellers[seller.id] = sellerRes
+        }
+
+        return FormatApiResponse(StatusCodes.Success, response, `Got ${sellers.length} on marketplace!!`)
     } catch (error) {
         return FormatApiResponse(StatusCodes.InternalServerError, null, null, error)
     }
