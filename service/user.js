@@ -36,7 +36,7 @@ const RegisterUser = async (regReqBody) => {
         }
 
         //create jwt token
-        const token = CreateAuthJwtToken(user)
+        const token = CreateAuthJwtToken(user.id)
 
         const response = {
             user,
@@ -84,7 +84,7 @@ const LoginUser = async (loginReqBody) => {
         }
 
         //generate auth token
-        const token = CreateAuthJwtToken(user)
+        const token = CreateAuthJwtToken(user.id)
 
         const response = {
             user,
@@ -152,7 +152,7 @@ const GetListofAllSellers = async () => {
             response.sellers[seller.id] = sellerRes
         }
 
-        return FormatApiResponse(StatusCodes.Success, response, `Got ${sellers.length} on marketplace!!`)
+        return FormatApiResponse(StatusCodes.Success, response, `Got ${sellers.length} sellers on marketplace!!`)
     } catch (error) {
         return FormatApiResponse(StatusCodes.InternalServerError, null, null, error)
     }
