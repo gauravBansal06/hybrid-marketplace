@@ -1,5 +1,6 @@
+const { AuthSecrets } = require("../config")
 const { StatusCodes } = require("../constants/http")
-const { ValidNewRegistrationUserTypes, UserType, ValidNameLengths } = require("../constants/user")
+const { ValidNewRegistrationUserTypes, UserType, ValidNameLengths, ValidNameRegexp } = require("../constants/user")
 const { GetUserByUserName, CreateUser, CreateSellerUser, GetSellerByUserId, GetAllSellers } = require("../repository/user")
 const { FormatApiResponse, EncryptPassword, ValidateAlphaNumericString, ComparePassword } = require("../utils/common")
 const { CreateAuthJwtToken } = require("../utils/jwt")
@@ -44,10 +45,10 @@ const RegisterUser = async (regReqBody) => {
             newUser,
             AuthorizationHeader: token
         }
-        return FormatApiResponse(StatusCodes.Success, response, 'User Successfully created!! Pls note AuthorizationHeader to access marketplace', null)
+        return FormatApiResponse(StatusCodes.Success, response, `User Successfully created!! Pls note AuthorizationHeader (valid for ${AuthSecrets.TokenExpiry}) to access marketplace`)
 
     } catch (error) {
-        return FormatApiResponse(StatusCodes.InternalServerError, null, null, JSON.stringify(error))
+        return FormatApiResponse(StatusCodes.InternalServerError, null, null, error)
     }
 }
 
@@ -92,10 +93,10 @@ const LoginUser = async (loginReqBody) => {
             user,
             AuthorizationHeader: token,
         }
-        return FormatApiResponse(StatusCodes.Success, response, 'Login Successful!! Pls note AuthorizationHeader to access marketplace', null)
+        return FormatApiResponse(StatusCodes.Success, response, `Login Successful!! Pls note AuthorizationHeader (valid for ${AuthSecrets.TokenExpiry}) to access marketplace!!`)
 
     } catch (error) {
-        return FormatApiResponse(StatusCodes.InternalServerError, null, null, JSON.stringify(error))
+        return FormatApiResponse(StatusCodes.InternalServerError, null, null, error)
     }
 }
 
@@ -108,19 +109,19 @@ const validateRegisterUserRequest = (regReqBody) => {
         sellerName: sellerName ? String(sellerName).trim() : ""
     }
     if (!regReq.userName || !regReq.password) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, 'Username and password both are required!!', null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, 'Username and password both are required!!') }
     }
     if (!ValidNewRegistrationUserTypes.includes(regReq.userType)) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `userType should be one of [${ValidNewRegistrationUserTypes}]!!`, null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `userType should be one of [${ValidNewRegistrationUserTypes}]!!`) }
     }
     if (regReq.userType == UserType.Seller && (regReq.sellerName.length > ValidNameLengths.Default || !ValidateAlphaNumericString(regReq.sellerName))) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `{sellerName}(alpha-numeric value of max ${ValidNameLengths.Default} chars) required for Seller registration!!`, null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `{sellerName}(${ValidNameRegexp}) value of max ${ValidNameLengths.Default} chars) required for Seller registration!!`) }
     }
     if (regReq.userName.length > ValidNameLengths.MaxUserNameLen || !ValidateAlphaNumericString(regReq.userName)) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `Username should be alphanumeric and max of ${ValidNameLengths.MaxUserNameLen} chars!!`, null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `Username should be (${ValidNameRegexp}}) and max of ${ValidNameLengths.MaxUserNameLen} chars!!`) }
     }
     if (regReq.password.length < ValidNameLengths.MinPasswordLen) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `Password should be minimum of ${ValidNameLengths.MinPasswordLen} chars`, null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, `Password should be minimum of ${ValidNameLengths.MinPasswordLen} chars`) }
     }
     return { regReq, errorResp: null }
 }
@@ -132,7 +133,7 @@ const validateLoginUserRequest = (loginReqBody) => {
         password: password ? String(password).trim() : "",
     }
     if (!loginReq.userName || !loginReq.password) {
-        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, 'Username and password both are required!!', null) }
+        return { errorResp: FormatApiResponse(StatusCodes.BadRequest, null, 'Username and password both are required!!') }
     }
     return { loginReq, errorResp: null }
 }
@@ -143,9 +144,9 @@ const GetListofAllSellers = async () => {
         if (!sellers || sellers.length == 0) {
             return FormatApiResponse(StatusCodes.Success, null, 'No sellers found!!')
         }
-        return FormatApiResponse(StatusCodes.Success, sellers)
+        return FormatApiResponse(StatusCodes.Success, sellers, `Got ${sellers.length} on marketplace!!`)
     } catch (error) {
-        return FormatApiResponse(StatusCodes.InternalServerError, null, null, JSON.stringify(error))
+        return FormatApiResponse(StatusCodes.InternalServerError, null, null, error)
     }
 }
 

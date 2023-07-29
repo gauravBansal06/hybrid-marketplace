@@ -23,7 +23,7 @@ const GetUserByUserName = async (userName) => {
 
 //seller methods
 const createSeller = async (userId, sellerName, transaction = null) => {
-    return await Seller.create({
+    return Seller.create({
         name: sellerName,
         userId: userId,
         isActive: true
