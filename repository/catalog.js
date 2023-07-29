@@ -1,5 +1,5 @@
 const { sequelize } = require("../config/database")
-const { Catalog, Product, Seller } = require("../models")
+const { Catalog, Product } = require("../models")
 
 const createCatalog = async (name, sellerId, transaction = null) => {
     return Catalog.create({
@@ -46,7 +46,7 @@ const getCatalogBySellerId = async (sellerId) => {
 
 const GetSellerCatalog = async (sellerId) => {
     const catalog = await getCatalogBySellerId(sellerId)
-    const products = catalog ? await catalog.getProducts() : []
+    const products = catalog ? await catalog.getProducts({ order: [['price', 'DESC']] }) : []
     return { catalog, products }
 }
 
