@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "be36bfbd-9125-4682-9280-67b9786c73c8",
+		"name": "Hybrid-Marketplace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16765888"
+	},
+	"item": [
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"seller_1\",\n    \"password\": \"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				},
+				"description": "- Requires Json req body with 'userName' and 'password' keys.\n- Gives 'AuthenticationHeader' in response which is needed as header in authenticated apis."
+			},
+			"response": []
+		},
+		{
+			"name": "User Registration- Buyer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"Buyer 1\",\n    \"password\": \"test123\",\n    \"userType\": \"buyer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/v1/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				},
+				"description": "- Requires Json req body.\n- \"userType\" should be \"buyer\" for buyer.\n- Gives 'AuthenticationHeader' in response which is needed as header in buyer authenticated apis."
+			},
+			"response": []
+		},
+		{
+			"name": "User Registration- Seller",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"seller_1\",\n    \"password\": \"test123\",\n    \"userType\": \"seller\",\n    \"sellerName\": \"Seller 1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/v1/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				},
+				"description": "- Requires Json req body.\n- \"userType\" should be \"seller\".\n- **\"sellerName\"** is required to create seller.\n- Gives 'AuthenticationHeader' in response which is needed as header in seller authenticated apis.\n- Response will contain - a **userId** and **sellerId** (**id** key inside **seller** object).\n- Pass **sellerId** and not **userId** wherever sellerId is required in buyer APIs."
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6000/api/v1/health-check/get-status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"health-check",
+						"get-status"
+					]
+				},
+				"description": "- Health Check api to check server status."
+			},
+			"response": []
+		},
+		{
+			"name": "Buyer- List Of Sellers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYmRhNDgyNi04NWJiLTQyZmItYTg2Ny1kMDFmMmYxMzc3ZjIiLCJpYXQiOjE2OTA2NTAwNzUsImV4cCI6MTY5MDczNjQ3NX0.Bb-5ymVq_6Mp6eDGgDL3a7o-QtzG7W9PuDfTuEWc2OI",
+						"description": "buyer token (get from login/registartion)",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6000/api/v1/buyer/list-of-sellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"list-of-sellers"
+					]
+				},
+				"description": "- Require **Authorization** header for buyer. Get it by login or registration api."
+			},
+			"response": []
+		},
+		{
+			"name": "Seller - Create Catalog",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYTI3MWM1My03OTk1LTQxMTMtODc2Ni1lZmVhMTg4ZDA0MWYiLCJpYXQiOjE2OTA2NTAxMzAsImV4cCI6MTY5MDczNjUzMH0.IlLcqhtqRRSzWT0LIhq0dvBf5RobKcnIVawFIN8NPYw",
+						"description": "seller token (get from login/registartion)",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"catalogName\": \"Musical Instruments\",\n    \"products\": [\n        {\n            \"name\": \"Guitar\",\n            \"price\": 3000\n        },\n        {\n            \"name\": \"Harmonium\",\n            \"price\": 5500\n        },\n        {\n            \"name\": \"Flute\",\n            \"price\": 849.99\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/v1/seller/create-catalog",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"seller",
+						"create-catalog"
+					]
+				},
+				"description": "- Require **Authorization** header for seller. Get it by login or registration api.\n- Require Json body.\n- \"catalogName\" and \"products\" - both are required.\n- See sample in req body."
+			},
+			"response": []
+		},
+		{
+			"name": "Buyer - Get Seller Catalog",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYmRhNDgyNi04NWJiLTQyZmItYTg2Ny1kMDFmMmYxMzc3ZjIiLCJpYXQiOjE2OTA2NTAwNzUsImV4cCI6MTY5MDczNjQ3NX0.Bb-5ymVq_6Mp6eDGgDL3a7o-QtzG7W9PuDfTuEWc2OI",
+						"description": "buyer token (get from login/registartion)",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6000/api/v1/buyer/seller-catalog/e96dbe59-cf61-4051-b882-e3ce8240e81e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"seller-catalog",
+						"e96dbe59-cf61-4051-b882-e3ce8240e81e"
+					]
+				},
+				"description": "- Require **Authorization** header for buyer. Get it by login or registration api.\n- In URL- pass **sellerId** after `/seller-catalog/` as shown.\n    - Read **User Registration- Seller** documentation to know about sellerId.\n- Response of this will contain {catalog, products}. Products will be an array which contains id and other details.\n- **Pls note- product Id is required to create order and not product name.**"
+			},
+			"response": []
+		},
+		{
+			"name": "Buyer- Create Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYmRhNDgyNi04NWJiLTQyZmItYTg2Ny1kMDFmMmYxMzc3ZjIiLCJpYXQiOjE2OTA2NTAwNzUsImV4cCI6MTY5MDczNjQ3NX0.Bb-5ymVq_6Mp6eDGgDL3a7o-QtzG7W9PuDfTuEWc2OI",
+						"description": "buyer token (get from login/registartion)",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [\n        {\n            \"id\": \"d6aeb92d-09e1-4d69-bcb9-9c299472e5a5\",\n            \"quantity\": 1\n        },\n        {\n            \"id\": \"acdee803-5052-44e1-88cf-6db960a21810\",\n            \"quantity\": 2\n        },\n        {\n            \"id\": \"3d0cfba9-1d8c-499a-b3e5-fdc36ec2b0f6\",\n            \"quantity\": 5\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/v1/buyer/create-order/e96dbe59-cf61-4051-b882-e3ce8240e81e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"create-order",
+						"e96dbe59-cf61-4051-b882-e3ce8240e81e"
+					]
+				},
+				"description": "- Require **Authorization** header for buyer. Get it by login or registration api.\n- In URL- pass **sellerId** after `/seller-catalog/` as shown.\n    - Read **User Registration- Seller** documentation to know about sellerId.\n- Require **Json request body.**\n    \n\nSample -\n\n``` json\n{\n    \"products\": [\n        {\n            \"id\": \"get thi product id from seller catalog api\",\n            \"quantity\": 2 (default 1 if not passed)\n        }\n    ]\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Seller- Get Orders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYTI3MWM1My03OTk1LTQxMTMtODc2Ni1lZmVhMTg4ZDA0MWYiLCJpYXQiOjE2OTA2NTAxMzAsImV4cCI6MTY5MDczNjUzMH0.IlLcqhtqRRSzWT0LIhq0dvBf5RobKcnIVawFIN8NPYw",
+						"description": "seller token (get from login/registartion)",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6000/api/v1/seller/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"v1",
+						"seller",
+						"orders"
+					]
+				},
+				"description": "- Require **Authorization** header for seller. Get it by login or registration api."
+			},
+			"response": []
+		}
+	]
+}
